@@ -281,7 +281,7 @@ ALTER TABLE ONLY public.star ALTER COLUMN star_id SET DEFAULT nextval('public.st
 -- Data for Name: galaxy; Type: TABLE DATA; Schema: public; Owner: freecodecamp
 --
 
-INSERT INTO public.galaxy VALUES (1, 'Milky Way', 'All stars visible to the naked eye belong to our galaxy, but often the term "Milky Way" is applied to a light hazy band in the night sky. Due to the fact that the Earth is inside the Milky Way, the exact view of our Galaxy from the outside is unknown.', 25, 10, true, true, NULL);
+INSERT INTO public.galaxy VALUES (1, 'Milky Way', 'All stars visible to the naked eye belong to our galaxy, but often the term "Milky Way" is applied to a light hazy band in the night sky. Due to the fact that the Earth is inside the Milky Way, the exact view of our Galaxy from the outside is unknown.', 25, 10000, true, true, NULL);
 INSERT INTO public.galaxy VALUES (2, 'Large Magellanic Cloud', 'The Large Magellanic Cloud is often referred to as an irregular galaxy, although there is some order in its structure, so it is more correct to classify it as a Magellanic spiral galaxy', 163, 4, false, false, 0.9);
 INSERT INTO public.galaxy VALUES (3, 'Small Magellanic Cloud', 'dwarf irregular galaxy', 206, 900, false, false, 2.7);
 INSERT INTO public.galaxy VALUES (4, 'Big Dipper', 'Big Dipper is a galaxy that orbits the Milky Way. It was discovered by Bat Willman et al. in 2005.', 330, 7, false, false, NULL);
@@ -352,6 +352,12 @@ INSERT INTO public.star VALUES (3, 'N81', '', 200, 500, false, false, 10000, 3);
 INSERT INTO public.star VALUES (4, 'Alula North', '', 30, 250, false, true, NULL, 4);
 INSERT INTO public.star VALUES (5, 'WOH G64', '', 50, 450, false, false, NULL, 5);
 INSERT INTO public.star VALUES (6, 'RW Cephei', '', 100, 600, false, false, NULL, 6);
+INSERT INTO public.star VALUES (7, 'Sun', 'The best sun of the Universe', 150, 2000, true, false, 5778, 1);
+INSERT INTO public.star VALUES (8, 'S Dorado', 'The brightest star in the Large Magellanic Cloud, a satellite of our Galaxy. It is a hypergiant, one of the brightest stars known to science.', 169, 60, false, false, 10000, 2);
+INSERT INTO public.star VALUES (9, 'N81', '', 200, 500, false, false, 10000, 3);
+INSERT INTO public.star VALUES (10, 'Alula North', '', 30, 250, false, true, NULL, 4);
+INSERT INTO public.star VALUES (11, 'WOH G64', '', 50, 450, false, false, NULL, 5);
+INSERT INTO public.star VALUES (12, 'RW Cephei', '', 100, 600, false, false, NULL, 6);
 
 
 --
@@ -386,15 +392,15 @@ SELECT pg_catalog.setval('public.satellite_satellite_id_seq', 1, false);
 -- Name: star_star_id_seq; Type: SEQUENCE SET; Schema: public; Owner: freecodecamp
 --
 
-SELECT pg_catalog.setval('public.star_star_id_seq', 6, true);
+SELECT pg_catalog.setval('public.star_star_id_seq', 12, true);
 
 
 --
--- Name: galaxy galaxy_galaxy_id_key; Type: CONSTRAINT; Schema: public; Owner: freecodecamp
+-- Name: galaxy galaxy_id_unique; Type: CONSTRAINT; Schema: public; Owner: freecodecamp
 --
 
 ALTER TABLE ONLY public.galaxy
-    ADD CONSTRAINT galaxy_galaxy_id_key UNIQUE (galaxy_id);
+    ADD CONSTRAINT galaxy_id_unique UNIQUE (galaxy_id);
 
 
 --
@@ -406,11 +412,11 @@ ALTER TABLE ONLY public.galaxy
 
 
 --
--- Name: moon moon_moon_id_key; Type: CONSTRAINT; Schema: public; Owner: freecodecamp
+-- Name: moon moon_id_unique; Type: CONSTRAINT; Schema: public; Owner: freecodecamp
 --
 
 ALTER TABLE ONLY public.moon
-    ADD CONSTRAINT moon_moon_id_key UNIQUE (moon_id);
+    ADD CONSTRAINT moon_id_unique UNIQUE (moon_id);
 
 
 --
@@ -422,6 +428,14 @@ ALTER TABLE ONLY public.moon
 
 
 --
+-- Name: planet planet_id_unique; Type: CONSTRAINT; Schema: public; Owner: freecodecamp
+--
+
+ALTER TABLE ONLY public.planet
+    ADD CONSTRAINT planet_id_unique UNIQUE (planet_id);
+
+
+--
 -- Name: planet planet_pkey; Type: CONSTRAINT; Schema: public; Owner: freecodecamp
 --
 
@@ -430,11 +444,11 @@ ALTER TABLE ONLY public.planet
 
 
 --
--- Name: planet planet_planet_id_key; Type: CONSTRAINT; Schema: public; Owner: freecodecamp
+-- Name: satellite satellite_id_unique; Type: CONSTRAINT; Schema: public; Owner: freecodecamp
 --
 
-ALTER TABLE ONLY public.planet
-    ADD CONSTRAINT planet_planet_id_key UNIQUE (planet_id);
+ALTER TABLE ONLY public.satellite
+    ADD CONSTRAINT satellite_id_unique UNIQUE (satellite_id);
 
 
 --
@@ -446,11 +460,11 @@ ALTER TABLE ONLY public.satellite
 
 
 --
--- Name: satellite satellite_satellite_id_key; Type: CONSTRAINT; Schema: public; Owner: freecodecamp
+-- Name: star star_id_unique; Type: CONSTRAINT; Schema: public; Owner: freecodecamp
 --
 
-ALTER TABLE ONLY public.satellite
-    ADD CONSTRAINT satellite_satellite_id_key UNIQUE (satellite_id);
+ALTER TABLE ONLY public.star
+    ADD CONSTRAINT star_id_unique UNIQUE (star_id);
 
 
 --
@@ -462,27 +476,11 @@ ALTER TABLE ONLY public.star
 
 
 --
--- Name: star star_star_id_key; Type: CONSTRAINT; Schema: public; Owner: freecodecamp
---
-
-ALTER TABLE ONLY public.star
-    ADD CONSTRAINT star_star_id_key UNIQUE (star_id);
-
-
---
 -- Name: moon moon_planet_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: freecodecamp
 --
 
 ALTER TABLE ONLY public.moon
     ADD CONSTRAINT moon_planet_id_fkey FOREIGN KEY (planet_id) REFERENCES public.planet(planet_id);
-
-
---
--- Name: planet planet_star_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: freecodecamp
---
-
-ALTER TABLE ONLY public.planet
-    ADD CONSTRAINT planet_star_id_fkey FOREIGN KEY (star_id) REFERENCES public.star(star_id);
 
 
 --
